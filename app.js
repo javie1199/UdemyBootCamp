@@ -1,21 +1,42 @@
 const express = require('express');
-
+const bodyParser = require('body-parser');
 const app = express();
 
+
+
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs') //Looking for files with ending .ejs. keep render without .ejs
+
+
+var campgrounds = [
+    {"name": "Jungle", "image": "https://pixabay.com/get/e837b1072af4003ed1584d05fb1d4e97e07ee3d21cac104490f3c17ba7edb4b8_340.jpg"},
+    {"name": "Lake", "image": "https://pixabay.com/get/e83db50929f0033ed1584d05fb1d4e97e07ee3d21cac104490f3c17ba7edb4b8_340.jpg"},
+    {"name": "Ocean", "image": "https://pixabay.com/get/e03db50f2af41c22d2524518b7444795ea76e5d004b0144496f0c379a7ecb5_340.jpg"},
+]
 
 app.get('/',(req,res)=>{
     res.render('landing')
 })
 
 app.get('/campgrounds',(req,res)=>{
-    var campgrounds = [
-        {"name": "Jungle", "img": "https://media-cdn.tripadvisor.com/media/photo-s/11/80/05/25/large-camping-area.jpg"},
-        {"name": "Lake", "img": "http://www.camp-liza.com/wp-content/uploads/2017/10/20170708_093155_HDR-1.jpg"},
-        {"name": "Ocean", "img": "https://www.backpackerguide.nz/wp-content/uploads/2015/12/camping-2581242_1920.jpg"},
-    ]
+    
 
     res.render('campgrounds',{campgrounds:campgrounds})
+})
+
+app.get('/campgrounds/new', (req,res)=>{
+    res.render('addCampgrounds')
+})
+
+app.post('/campgrounds', (req,res)=>{
+    var name = req.body.name
+    var image = req.body.image
+    console.log(name)
+    var newCampground = { name : name, image: image}
+    console.log(newCampground)
+    campgrounds.push(newCampground)
+
+    res.redirect('/campgrounds')
 })
 app.listen(5000, ()=>{
     console.log('Server starts at port 5000')

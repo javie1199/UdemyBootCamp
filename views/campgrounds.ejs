@@ -1,12 +1,10 @@
-<% include partials/header.ejs %>
-
+<% include partials/header %>
 <h1> Welcome to page campgrounds </h1>
-
+<a href="/campgrounds/new">Add new campgrounds</a>
 <% campgrounds.forEach(function(x){ %>
     <div>
         <h1> <%= x.name %> </h1>
-        <img src = "<%=x.img%>">
+        <img src = "<%=x.image%>">
     </div>
 <% }); %>
-
-<% include partials/footer.ejs %>
+<% include partials/footer %>
