@@ -3,22 +3,12 @@ const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose')
 const Campground = require('./models/campground')
+const Comment = require('./models/comment')
+const seedDB = require('./seed')
 
+// seedDB()
 //create or connect to mongodb database
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true })
-
-
-
-// Campground.create(
-//     {
-//         name: "Ocean",
-//         image: "https://pixabay.com/get/e83db7082af3043ed1584d05fb1d4e97e07ee3d21cac104490f3c779afe5b1b9_340.jpg",
-//         description: "Beautiful scence and no water, no food, engjoy"
-//     },(err, campground)=>{
-//         if(err){console.log(err)}
-//         else{console.log("Newly created camground")}
-//     }
-// )
 
 //Using bodyParser for get info from POST method
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -46,13 +36,13 @@ app.get('/campgrounds/new', (req,res)=>{
 
 app.get('/campgrounds/:id',(req, res)=>{
     console.log(req.params.id) //req.params get info from URL. req.body get infor from POST method
-    Campground.findById(req.params.id,function(err, foundCampground){
+    Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground){
         if(err){console.log(err)}
         else{
+            console.log(foundCampground)
             res.render('show',{campgrounds: foundCampground})
         }
-    })
-    
+    })  
 })
 
 app.post('/campgrounds', (req,res)=>{
@@ -69,6 +59,32 @@ app.post('/campgrounds', (req,res)=>{
 
     
 })
+
+app.get('/campgrounds/:id/comments/new',(req,res)=>{
+    Campground.findById(req.params.id,(err,foundCampground)=>{
+        if(err){throw err}
+        else{   
+            res.render('./comments/new',{campgrounds: foundCampground})
+        }
+    })
+})
+
+app.post('/campgrounds/:id/comments',(req,res)=>{
+    Campground.findById(req.params.id, (err, foundCampground)=>{
+        if(err){throw err}
+        else{
+            Comment.create(req.body.comment, (err, createdComment)=>{
+                if(err){throw err}
+                else{
+                    foundCampground.comments.push(createdComment);
+                    foundCampground.save();
+                    res.redirect('/campgrounds/' + foundCampground._id)
+                }
+            })
+        }
+    })
+})
+
 
 app.listen(5000, ()=>{
     console.log('Server starts at port 5000')
