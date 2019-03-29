@@ -2,18 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const mongoose = require('mongoose')
+const Campground = require('./models/campground')
 
-
+//create or connect to mongodb database
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true })
 
-//SCHEMA SETUP
-var campgroundSchema = new mongoose.Schema({
-    name: String,
-    image: String,
-    description: String
-})
 
-var Campground = mongoose.model("Campground", campgroundSchema)
 
 // Campground.create(
 //     {
@@ -26,17 +20,20 @@ var Campground = mongoose.model("Campground", campgroundSchema)
 //     }
 // )
 
+//Using bodyParser for get info from POST method
 app.use(bodyParser.urlencoded({ extended: true }))
-app.set('view engine', 'ejs') //Looking for files with ending .ejs. keep render without .ejs
+
+//Looking for files with ending .ejs. keep render without .ejs
+app.set('view engine', 'ejs') 
 
 app.get('/',(req,res)=>{
-    res.render('landing')
+    res.render('landing') //langding.ejs file created in views folder
 })
 
 app.get('/campgrounds',(req,res)=>{
     Campground.find({},function(err, allCampgrounds){
         if(err){console.log(err)}
-        else{res.render('index',{campgrounds:allCampgrounds})}
+        else{res.render('index',{campgrounds:allCampgrounds})} //passing object campground :{ All Campgrounds }. Using ejs to fetch them.
     })
 
     
@@ -72,6 +69,7 @@ app.post('/campgrounds', (req,res)=>{
 
     
 })
+
 app.listen(5000, ()=>{
     console.log('Server starts at port 5000')
 })

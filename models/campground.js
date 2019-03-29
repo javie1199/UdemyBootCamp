@@ -1,0 +1,12 @@
+//SCHEMA SETUP
+const mongoose = require('mongoose')
+
+var campgroundSchema = new mongoose.Schema({
+    name: String,
+    image: String,
+    description: String
+})
+
+//"Campgound" is the name of collection in db (would refer to plural like "Campgrounds")
+// Refer Campground as a model
+module.exports = mongoose.model("Campground", campgroundSchema)
