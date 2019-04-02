@@ -12,7 +12,8 @@ mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true })
 
 //Using bodyParser for get info from POST method
 app.use(bodyParser.urlencoded({ extended: true }))
-
+app.use(express.static(__dirname + "/public"))
+// console.log(__dirname + "/public")
 //Looking for files with ending .ejs. keep render without .ejs
 app.set('view engine', 'ejs') 
 
@@ -35,11 +36,11 @@ app.get('/campgrounds/new', (req,res)=>{
 })
 
 app.get('/campgrounds/:id',(req, res)=>{
-    console.log(req.params.id) //req.params get info from URL. req.body get infor from POST method
+    // console.log(req.params.id) //req.params get info from URL. req.body get infor from POST method
     Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground){
         if(err){console.log(err)}
         else{
-            console.log(foundCampground)
+            // console.log(foundCampground)
             res.render('show',{campgrounds: foundCampground})
         }
     })  
