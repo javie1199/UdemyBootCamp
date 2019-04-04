@@ -10,6 +10,11 @@ const passport = require('passport')
 const passportLocalMongoose = require('passport-local-mongoose')
 const User = require('./models/user')
 
+const CampgroundRoutes = require('./routes/camground')
+const CommentRoutes = require('./routes/comment')
+const IndexRoutes = require('./routes/index')
+
+
 // seedDB()
 //create or connect to mongodb database
 mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true })
@@ -44,117 +49,9 @@ app.use(function(req,res,next){
 //Looking for files with ending .ejs. keep render without .ejs
 app.set('view engine', 'ejs')
 
-app.get('/', (req, res) => {
-    res.render('landing') //langding.ejs file created in views folder
-})
-
-app.get('/campgrounds', (req, res) => {
-    Campground.find({}, function (err, allCampgrounds) {
-        if (err) { console.log(err) }
-        else { res.render('index', { campgrounds: allCampgrounds }) } //passing object campground :{ All Campgrounds }. Using ejs to fetch them.
-    })
-
-
-})
-
-//put get campgrounds/new before campgrounds/:id so that it use /new first
-app.get('/campgrounds/new', (req, res) => {
-    res.render('addCampgrounds')
-})
-
-app.get('/campgrounds/:id', (req, res) => {
-    // console.log(req.params.id) //req.params get info from URL. req.body get infor from POST method
-    Campground.findById(req.params.id).populate('comments').exec(function (err, foundCampground) {
-        if (err) { console.log(err) }
-        else {
-            // console.log(foundCampground)
-            res.render('show', { campgrounds: foundCampground })
-        }
-    })
-})
-
-app.post('/campgrounds', (req, res) => {
-    var name = req.body.name
-    var image = req.body.image
-    var desc = req.body.description
-    var newCampground = { name: name, image: image, description: desc }
-    console.log(newCampground)
-    try {
-        Campground.create(newCampground)
-    } catch (error) {
-        console.log(error)
-    } finally { res.redirect('/campgrounds') }
-
-
-})
-
-app.get('/campgrounds/:id/comments/new', isLoggedIn, (req, res) => {
-    Campground.findById(req.params.id, (err, foundCampground) => {
-        if (err) { throw err }
-        else {
-            res.render('./comments/new', { campgrounds: foundCampground })
-        }
-    })
-})
-
-app.post('/campgrounds/:id/comments', isLoggedIn, (req, res) => {
-    Campground.findById(req.params.id, (err, foundCampground) => {
-        if (err) { throw err }
-        else {
-            Comment.create(req.body.comment, (err, createdComment) => {
-                if (err) { throw err }
-                else {
-                    foundCampground.comments.push(createdComment);
-                    foundCampground.save();
-                    res.redirect('/campgrounds/' + foundCampground._id)
-                }
-            })
-        }
-    })
-})
-
-//=========
-// AUTHENTICATE ROUTE
-//=========
-
-app.get('/register', (req, res) => {
-    res.render('register')
-})
-
-app.post('/register', (req, res) => {
-    var newUser = new User({ username: req.body.username })
-    User.register(newUser, req.body.password, (err, user) => {
-        if (err) {
-            console.log(err)
-            return res.render('register')
-        }
-        passport.authenticate('local')(req, res, () => {
-            res.redirect('/campgrounds')
-        })
-    })
-})
-
-app.get('/login', (req, res) => {
-    res.render('login')
-})
-
-app.post('/login', passport.authenticate('local', {
-    successRedirect: '/campgrounds',
-    failureRedirect: '/login'
-    }), (req, res) => {
-})
-
-app.get('/logout',(req,res)=>{
-    req.logOut()
-    res.redirect('/campgrounds')
-})
-
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login')
-}
+app.use('/campgrounds',CampgroundRoutes)
+app.use('/campgrounds/:id/comments',CommentRoutes)
+app.use('/',IndexRoutes)
 
 const PORT = 5000
 app.listen(PORT, () => {
