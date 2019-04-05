@@ -8,7 +8,14 @@ var campgroundSchema = new mongoose.Schema({
 	comments:[{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Comment"
-	}]
+	}],
+	author: {
+        _id:{
+            type: mongoose.Schema.Types.ObjectId,
+            ref : "User"
+        },
+        username : String
+    },
 })
 
 //"Campgound" is the name of collection in db (would refer to plural like "Campgrounds")

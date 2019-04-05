@@ -22,7 +22,7 @@ router.post('/', isLoggedIn, (req, res) => {
 					createdComment.author._id = req.user._id
 					createdComment.author.username = req.user.username
 					createdComment.save()
-					console.log(createdComment)
+					// console.log(createdComment)
                     foundCampground.comments.push(createdComment);
                     foundCampground.save();
                     res.redirect('/campgrounds/' + foundCampground._id)
