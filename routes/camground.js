@@ -36,7 +36,7 @@ router.post('/', isLoggedIn, (req, res) => {
 // ADD A CAMGROUND
 //put get campgrounds/new before campgrounds/:id so that it use /new first
 router.get('/new', isLoggedIn, (req, res) => {
-    res.render('addCampgrounds')
+    res.render('campgrounds/addCampgrounds')
 })
 
 // SHOW A CAMPGROUD
@@ -46,8 +46,45 @@ router.get('/:id', (req, res) => {
         if (err) { console.log(err) }
         else {
             // console.log(foundCampground)
-            res.render('show', { campgrounds: foundCampground })
+            res.render('campgrounds/show', { campgrounds: foundCampground })
         }
+    })
+})
+
+//EDIT A CAMPGROUND
+router.get('/:id/edit', (req,res)=>{
+    Campground.findById(req.params.id,(err,campground)=>{
+        if(err){
+            console.log(err)
+            redirect('/campgrounds')
+        }
+        res.render('campgrounds/editCampground',{campground: campground})
+        
+    })
+    
+})
+
+router.put('/:id',(req,res)=>{
+    // console.log(req.body.campground)
+    Campground.findByIdAndUpdate(req.params.id,req.body.campground,(err, updatedCampground)=>{
+        Campground.findById(req.params.id).populate('comments').exec(function (err, foundCampground) {
+            if (err) { console.log(err) }
+            else {
+                console.log(foundCampground)
+                res.render('campgrounds/show', { campgrounds: foundCampground })
+            }
+        })
+    })  
+})
+
+//DELETE A CAMPGROUND
+router.delete('/:id',(req,res)=>{
+    Campground.findByIdAndRemove(req.params.id,(err)=>{
+        if(err){
+            console.log(err)
+            res.redirect('/campgrounds')
+        }
+        res.redirect('/campgrounds')
     })
 })
 

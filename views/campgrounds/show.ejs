@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include ../partials/header %>
 <div class = "container">
 	<div class = "col-md-3">
 		<h4>YelpCamp</h4>
@@ -15,9 +15,11 @@
 				<div class="pull-right"><strong>$9.00/night</strong></div>
 				<a><%= campgrounds.name %></a>
 				<p style="margin-top:10px"><%= campgrounds.description %></p>
-			</div>
-			<div>
 				<p><em>Created by <%= campgrounds.author.username%> </em></p>
+				<a class="btn btn-xs btn-warning" href = "/campgrounds/<%= campgrounds._id%>/edit">Edit</a>
+				<form id="delete_form" action="/campgrounds/<%= campgrounds._id %>/?_method=DELETE" method= POST>
+					<button class="btn btn-xs btn-danger">Delete</button>
+				</form>
 			</div>
 		</div>
 		<div class = "well">
@@ -45,4 +47,4 @@
 
 
 
-<% include partials/footer %>
+<% include ../partials/footer %>

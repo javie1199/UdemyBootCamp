@@ -1,7 +1,8 @@
 var express = require('express')
 var router = express.Router()
-var user = require('../models/user')
+var User = require('../models/user')
 const passport = require('passport')
+
 
 router.get('/', (req, res) => {
     res.render('landing') //langding.ejs file created in views folder
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
 //=========
 
 router.get('/register', (req, res) => {
-    res.render('register')
+    res.render('users/register')
 })
 
 router.post('/register', (req, res) => {
@@ -19,7 +20,7 @@ router.post('/register', (req, res) => {
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             console.log(err)
-            return res.render('register')
+            return res.render('users/register')
         }
         passport.authenticate('local')(req, res, () => {
             res.redirect('/campgrounds')
@@ -28,7 +29,7 @@ router.post('/register', (req, res) => {
 })
 
 router.get('/login', (req, res) => {
-    res.render('login')
+    res.render('users/login')
 })
 
 router.post('/login', passport.authenticate('local', {

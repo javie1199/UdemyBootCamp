@@ -9,6 +9,7 @@ const LocalStrategy = require('passport-local')
 const passport = require('passport')
 const passportLocalMongoose = require('passport-local-mongoose')
 const User = require('./models/user')
+const methodOverride = require('method-override')
 
 const CampgroundRoutes = require('./routes/camground')
 const CommentRoutes = require('./routes/comment')
@@ -46,6 +47,7 @@ app.use(function(req,res,next){
     next()
 })
 
+app.use(methodOverride('_method'))
 //Looking for files with ending .ejs. keep render without .ejs
 app.set('view engine', 'ejs')
 
