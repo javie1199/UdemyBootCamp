@@ -21,7 +21,7 @@ router.post('/', isLoggedIn, (req, res) => {
         _id: req.user._id,
         username: req.user.username
     }
-    var newCampground = { name: name, image: image, description: desc, author: author }
+    var newCampground = { name: name, image: image, description: desc, author: author, date: new Date() }
     // console.log(newCampground)
     // console.log(req)
     try {
@@ -70,7 +70,6 @@ router.put('/:id',checkCampgroundOwnership,(req,res)=>{
         Campground.findById(req.params.id).populate('comments').exec(function (err, foundCampground) {
             if (err) { console.log(err) }
             else {
-                console.log(foundCampground)
                 res.render('campgrounds/show', { campgrounds: foundCampground })
             }
         })

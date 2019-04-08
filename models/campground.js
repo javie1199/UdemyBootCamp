@@ -16,6 +16,9 @@ var campgroundSchema = new mongoose.Schema({
         },
         username : String
     },
+    date:{
+        type: Date
+    }
 })
 
 //"Campgound" is the name of collection in db (would refer to plural like "Campgrounds")
