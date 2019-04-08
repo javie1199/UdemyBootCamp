@@ -2,9 +2,10 @@ var express = require('express')
 var router = express.Router({mergeParams:true})
 var Campground = require('../models/campground')
 var Comment = require('../models/comment')
+var middlewares = require('../middlewares')
 
 //ADD NEW COMMENT
-router.get('/new', isLoggedIn, (req, res) => {
+router.get('/new', middlewares.isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         if (err) { throw err }
         else {
@@ -13,7 +14,7 @@ router.get('/new', isLoggedIn, (req, res) => {
     })
 })
 
-router.post('/', isLoggedIn, (req, res) => {
+router.post('/', middlewares.isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, foundCampground) => {
         if (err) { throw err }
         else {
@@ -34,7 +35,7 @@ router.post('/', isLoggedIn, (req, res) => {
 })
 
 //EDIT A COMMENT
-router.get('/:comment_id/edit', checkCommentOwnership, (req,res)=>{
+router.get('/:comment_id/edit', middlewares.checkCommentOwnership, (req,res)=>{
     Comment.findById(req.params.comment_id, (err, foundComment)=>{
         if(err){
             console.log(err)
@@ -48,7 +49,7 @@ router.get('/:comment_id/edit', checkCommentOwnership, (req,res)=>{
     
 })
 
-router.put('/:comment_id', checkCommentOwnership, (req,res)=>{
+router.put('/:comment_id', middlewares.checkCommentOwnership, (req,res)=>{
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment)=>{
         if(err){console.log(err); res.redirect('back')}
         else{
@@ -59,7 +60,7 @@ router.put('/:comment_id', checkCommentOwnership, (req,res)=>{
 
 
 // DELETE COMMENT
-router.delete('/:comment_id',checkCommentOwnership,(req,res)=>{
+router.delete('/:comment_id', middlewares.checkCommentOwnership,(req,res)=>{
     Comment.findByIdAndDelete(req.params.comment_id,(err)=>{
         if(err){console.log(err); res.redirect('back')}
         else{
@@ -69,33 +70,33 @@ router.delete('/:comment_id',checkCommentOwnership,(req,res)=>{
     
 })
 
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login')
-}
+// function isLoggedIn(req,res,next){
+//     if(req.isAuthenticated()){
+//         return next()
+//     }
+//     res.redirect('/login')
+// }
 
-function checkCommentOwnership(req,res,next){
-    if(req.isAuthenticated()){
-        Comment.findById(req.params.comment_id, (err, foundComment)=>{
-            if(err){console.log(err);res.redirect('back')}
-            else{
-                if(foundComment.author._id.equals(req.user._id)){
-                    return next()
-                }
-                else{
-                    console.log('You need authorize to edit/delete comments');
-                    res.redirect('back')
-                }
+// function checkCommentOwnership(req,res,next){
+//     if(req.isAuthenticated()){
+//         Comment.findById(req.params.comment_id, (err, foundComment)=>{
+//             if(err){console.log(err);res.redirect('back')}
+//             else{
+//                 if(foundComment.author._id.equals(req.user._id)){
+//                     return next()
+//                 }
+//                 else{
+//                     console.log('You need authorize to edit/delete comments');
+//                     res.redirect('back')
+//                 }
                 
-            }
-        })
-    }else{
-        console.log('You need authorize to edit/delete comments');
-        res.redirect('back')
-    }
-}
+//             }
+//         })
+//     }else{
+//         console.log('You need authorize to edit/delete comments');
+//         res.redirect('back')
+//     }
+// }
 
 
 module.exports = router
