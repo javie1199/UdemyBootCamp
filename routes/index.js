@@ -11,10 +11,12 @@ router.get('/', (req, res) => {
 // AUTHENTICATE ROUTE
 //=========
 
+//GET REGISTER PAGE
 router.get('/register', (req, res) => {
     res.render('users/register')
 })
 
+// SUBMIT REGISTER FORM
 router.post('/register', (req, res) => {
     var newUser = new User({ username: req.body.username })
     User.register(newUser, req.body.password, (err, user) => {
@@ -28,26 +30,23 @@ router.post('/register', (req, res) => {
     })
 })
 
+// GET LOGIN PAGE
 router.get('/login', (req, res) => {
-    res.render('users/login',{message: req.flash('error')})
+    res.render('users/login')
 })
 
+// SUBMIT LOGIN PAGE FORM
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/campgrounds',
     failureRedirect: '/login'
     }), (req, res) => {
 })
 
+// CLICK LOGOUT BUTTON
 router.get('/logout',(req,res)=>{
     req.logOut()
+    req.flash('success','You have logged out')
     res.redirect('/campgrounds')
 })
-
-function isLoggedIn(req,res,next){
-    if(req.isAuthenticated()){
-        return next()
-    }
-    res.redirect('/login')
-}
 
 module.exports = router

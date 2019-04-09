@@ -46,6 +46,8 @@ passport.deserializeUser(User.deserializeUser());
 //SETING USER ACCESS TO FETCH THE USER DATA
 app.use(function(req,res,next){
     res.locals.currentUser = req.user
+    res.locals.error = req.flash('error')
+    res.locals.success = req.flash('success')
     next()
 })
 

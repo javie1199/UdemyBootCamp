@@ -12,6 +12,7 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
 					return next()
 				}
 				else{
+                    req.flash('error','You need authorize to edit/delete campground')
 					console.log('You need authorize to edit/delete comments');
 					res.redirect('back')
 				}
@@ -19,6 +20,7 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
 			}
 		})
 	}else{
+        req.flash('error','You need authorize to edit/delete campground')
 		console.log('You need authorize to edit/delete comments');
 		res.redirect('back')
 	}
@@ -28,7 +30,6 @@ middlewareObj.isLoggedIn = function(req,res,next){
     if(req.isAuthenticated()){
         return next()
     }
-    
     req.flash('error','You need to login first')
     res.redirect('/login')
 }
@@ -43,12 +44,13 @@ middlewareObj.checkCampgroundOwnership = function(req,res,next){
                     return next()
                  }
                  else{
-                     console.log('You need authorize to edit/delete campground')
-                     res.redirect("back")
+                    req.flash('error','You need authorize to edit/delete campground')
+                    res.redirect("back")
                  }
             }
         })
     }else{
+        req.flash('error','You need authorize to edit/delete campground')
         console.log('You need to login to edit/delete campground')
         res.redirect("back")
     }
