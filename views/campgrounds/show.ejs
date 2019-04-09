@@ -13,9 +13,9 @@
 			<img src="<%= campgrounds.image %>" style="width:100% ; margin-bottom:10px">
 			<div class="caption-full">
 				<div class="pull-right"><strong>$9.00/night</strong></div>
-				<a><%= campgrounds.name %></a>
+				<h4><%= campgrounds.name.toUpperCase() %></h4>
 				<p style="margin-top:10px"><%= campgrounds.description %></p>
-				<p><em>Created by <%= campgrounds.author.username%> </em> <%= campgrounds.date.toDateString() %></p>
+				<p><strong>Created by </strong><em><%= campgrounds.author.username%>,</em> <%= campgrounds.date.toDateString() %></p>
 				<% if (currentUser && campgrounds.author._id.equals(currentUser._id)){ %>
 					<a class="btn btn-xs btn-warning" href = "/campgrounds/<%= campgrounds._id%>/edit">Edit</a>
 					<form id="delete_form" action="/campgrounds/<%= campgrounds._id %>/?_method=DELETE" method = "POST">
@@ -33,7 +33,7 @@
 			<div>
 				<% campgrounds.comments.forEach(function(comment){ %>
 					<div class="pull-left"><strong><%= comment.author.username %></strong></div>	
-					<div class="pull-right">10 days ago</div>	
+					<div class="pull-right"><%= comment.date.toDateString() %></div>	
 					<br>
 					<p><%= comment.text %></p>
 					<% if (currentUser && comment.author._id.equals(currentUser._id)){ %>
