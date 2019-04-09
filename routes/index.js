@@ -22,11 +22,14 @@ router.post('/register', (req, res) => {
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             req.flash('error', err.message)
-            return res.redirect('register')
+            return res.redirect('/register')
         }
         passport.authenticate
             ('local',{ failureRedirect: '/register' })
-            (req, res, () => { res.redirect('/campgrounds') })
+            (req, res, () => { 
+                req.flash('success','Welcome to YelpCamp ' + req.body.username)
+                res.redirect('/campgrounds') 
+            })
     })
 })
 
@@ -36,10 +39,13 @@ router.get('/login', (req, res) => {
 })
 
 // SUBMIT LOGIN PAGE FORM
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/campgrounds',
-    failureRedirect: '/login'
-    }), (req, res) => {
+router.post('/login', passport.authenticate
+    ('local', {
+        failureRedirect: '/login',
+        failureFlash: true
+    }), (req, res, ) => {
+            req.flash('success','Welcome to YelpCamp ' + req.user.username)
+            res.redirect('/campgrounds')
 })
 
 // CLICK LOGOUT BUTTON

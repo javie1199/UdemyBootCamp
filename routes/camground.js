@@ -7,7 +7,9 @@ var middlewares = require('../middlewares')
 router.get('/', (req, res) => {
     Campground.find({}, function (err, allCampgrounds) {
         if (err) { req.flash('error', err.message) }
-        else { res.render('index', { campgrounds: allCampgrounds }) } //passing object campground :{ All Campgrounds }. Using ejs to fetch them.
+        else { 
+            res.render('index', { campgrounds: allCampgrounds }) 
+        } //passing object campground :{ All Campgrounds }. Using ejs to fetch them.
     })
 
 
