@@ -3,6 +3,9 @@
   "version": "YelpCam v1",
   "main": "app.js",
   "license": "MIT",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "body-parser": "^1.18.3",
     "connect-flash": "^0.1.1",
