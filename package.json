@@ -1,6 +1,6 @@
 {
   "name": "Section28YelpCamp",
-  "version": "YelpCam v1",
+  "version": "1.0.0",
   "main": "app.js",
   "license": "MIT",
   "scripts": {
