@@ -65,7 +65,7 @@ app.use('/',IndexRoutes)
 
 
 //SETTING SERVER UP
-const PORT = 5000
+const PORT = process.env.PORT || 5000 //set process.env.port for deplooying
 app.listen(PORT, () => {
     console.log(`Server starts at port : ${PORT}`)
 })
