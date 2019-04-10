@@ -19,8 +19,13 @@ const IndexRoutes = require('./routes/index')
 // seedDB()
 
 //create or connect to mongodb database
-// mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true })
-mongoose.connect("mongodb+srv://admin:Password01@yelpcamp-lthqg.mongodb.net/YelpCamp?retryWrites=true",{ useNewUrlParser: true })
+const url = process.env.DATABASEURL || "mongodb://localhost/yelp_camp"
+mongoose.connect(url,{useNewUrlParser: true },()=>{
+    console.log(`Connect databse at ${url}`)
+})
+
+//  mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true })
+// mongoose.connect("mongodb+srv://admin:Password01@yelpcamp-lthqg.mongodb.net/YelpCamp?retryWrites=true",{ useNewUrlParser: true })
 
 //Using bodyParser for get info from POST method
 app.use(bodyParser.urlencoded({ extended: true }))
