@@ -15,6 +15,9 @@ const CampgroundRoutes = require('./routes/camground')
 const CommentRoutes = require('./routes/comment')
 const IndexRoutes = require('./routes/index')
 
+// SET UP MOMENT TIME
+app.locals.moment = require('moment');
+
 //USING SEEDDB TO CREATE MOCK DATA
 // seedDB()
 

@@ -45,7 +45,9 @@
 				<div class="pull-right"></div>
 				<h4><%= campgrounds.name.toUpperCase() %></h4>
 				<p style="margin-top:10px"><%= campgrounds.description %></p>
-				<p><strong>Created by </strong><em><%= campgrounds.author.username%>,</em> <%= campgrounds.date.toDateString() %></p>
+				<p>
+					<em>Submitted by: <strong><%= campgrounds.author.username %></strong>, <%= moment(campgrounds.createdAt).fromNow() %></em>
+				</p>
 				<% if (currentUser && campgrounds.author._id.equals(currentUser._id)){ %>
 					<a class="btn btn-xs btn-warning" href = "/campgrounds/<%= campgrounds._id%>/edit">Edit</a>
 					<form id="delete_form" action="/campgrounds/<%= campgrounds._id %>/?_method=DELETE" method = "POST">
@@ -63,7 +65,7 @@
 			<div>
 				<% campgrounds.comments.forEach(function(comment){ %>
 					<div class="pull-left"><strong><%= comment.author.username %></strong></div>	
-					<div class="pull-right"><%= comment.date.toDateString() %></div>	
+					<span class="pull-right"><%= moment(comment.createdAt).fromNow() %></span>	
 					<br>
 					<p><%= comment.text %></p>
 					<% if (currentUser && comment.author._id.equals(currentUser._id)){ %>

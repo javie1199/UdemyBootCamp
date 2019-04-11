@@ -16,10 +16,11 @@ var campgroundSchema = new mongoose.Schema({
         },
         username : String
     },
-    date:{
-        type: Date
+    createdAt: { 
+        type: Date, 
+        default: Date.now 
     },
-    
+
     location: String
 })
 
