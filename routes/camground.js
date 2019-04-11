@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     Campground.find({}, function (err, allCampgrounds) {
         if (err) { req.flash('error', err.message) }
         else { 
-            res.render('index', { campgrounds: allCampgrounds }) 
+            res.render('index', { campgrounds: allCampgrounds, page: 'campgrounds'}) 
         } //passing object campground :{ All Campgrounds }. Using ejs to fetch them.
     })
 

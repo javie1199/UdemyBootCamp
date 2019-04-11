@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 //GET REGISTER PAGE
 router.get('/register', (req, res) => {
-    res.render('users/register')
+    res.render('users/register',{page: 'register'})
 })
 
 // SUBMIT REGISTER FORM
@@ -35,7 +35,7 @@ router.post('/register', (req, res) => {
 
 // GET LOGIN PAGE
 router.get('/login', (req, res) => {
-    res.render('users/login')
+    res.render('users/login',{page: 'login'})
 })
 
 // SUBMIT LOGIN PAGE FORM

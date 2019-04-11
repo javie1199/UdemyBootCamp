@@ -62,3 +62,4 @@ function seedDB(){
 }
  
 module.exports = seedDB;
+// export default seedDB :    same syntax with ES6
