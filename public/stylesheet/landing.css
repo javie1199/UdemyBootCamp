@@ -1,7 +1,7 @@
 body {
 	background-color: #000;
-  }
-
+	}
+	
 /* position the welcome text and view all campgrounds buton: */
 #landing-header {
 	z-index: 1;

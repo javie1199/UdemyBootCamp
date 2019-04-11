@@ -1,7 +1,7 @@
 <% include partials/header %>
     <div class="container">
         <header class = "jumbotron">
-            <h1> Welcome to page campgrounds </h1>
+            <h1> Welcome to Jon's Yelp Camp </h1>
             <p> Enjoy our hand-picked campgrounds all over the world</p>
             <p ><a class="btn btn-primary" href="/campgrounds/new">Add new campgrounds</a></p>
         </header>
@@ -12,8 +12,8 @@
                 <div class = "col-md-3 col-sm-6">
                     <div class= "thumbnail">
                         <img class="img-responsive" src = "<%=x.image%>">
-                        <div class = "caption"><p> <%= x.name %> </p></div>
-                        <a href="campgrounds/<%=x._id%>" class="btn btn-primary">More Info</a>
+                        <div class = "caption"><h4><strong> <%= x.name %> </strong></h4></div>
+                        <a href="campgrounds/<%=x._id%>" class="btn btn-primary" style="margin-bottom: 10px">More Info</a>
                     </div>
                     
                 </div>

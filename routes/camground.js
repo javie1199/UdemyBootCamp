@@ -24,7 +24,8 @@ router.post('/', middlewares.isLoggedIn, (req, res) => {
         _id: req.user._id,
         username: req.user.username
     }
-    var newCampground = { name: name, image: image, description: desc, author: author, date: new Date() }
+    var location = req.body.location
+var newCampground = { name: name, image: image, description: desc, author: author, date: new Date(), location: location }
     try {
         Campground.create(newCampground)
     } catch (error) {
