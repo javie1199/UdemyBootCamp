@@ -5,13 +5,25 @@
 	<h1 style="text-align: center"> Sign up </h1>
         <div style = "width: 30%; margin: auto;     margin-top: 25px;">
 			<form action="/register" method="POST">
+                <div class="form-group">
+                    <label for="adminCode">Frist Name</label>
+                    <input class="form-control" type="text" name="firstName" placeholder="Jon">
+                </div>
+                <div class="form-group">
+                    <label for="adminCode">Last Name</label>
+                    <input class="form-control" type="text" name="lastName" placeholder="Tran">
+                </div>
+                <div class="form-group">
+                    <label for="adminCode">Email</label>
+                    <input class="form-control" type="email" name="email" placeholder="jTran@gmail.com">
+                </div>
                 <div class="form-group" >
                     <label for="username">Username</label>
-                    <input type="text" class="form-control" name="username" placeholder = "username">
+                    <input type="text" class="form-control" name="username" placeholder = "JonTran">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" name="password" placeholder = "password">
+                    <input type="password" class="form-control" name="password" placeholder = "123">
                 </div>
                 <div class="form-group">
                     <label for="adminCode">Admin Code</label>

@@ -46,7 +46,7 @@
 				<h4><%= campgrounds.name.toUpperCase() %></h4>
 				<p style="margin-top:10px"><%= campgrounds.description %></p>
 				<p>
-					<em>Submitted by: <strong><%= campgrounds.author.username %></strong>, <%= moment(campgrounds.createdAt).fromNow() %></em>
+					<em>Submitted by: <a href="/users/<%= campgrounds.author.id %>"><%= campgrounds.author.username %></a>, <%= moment(campgrounds.createdAt).fromNow() %></em>
 				</p>
 				<% if (currentUser && campgrounds.author._id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
 					<a class="btn btn-xs btn-warning" href = "/campgrounds/<%= campgrounds._id%>/edit">Edit</a>

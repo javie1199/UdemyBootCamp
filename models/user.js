@@ -7,7 +7,11 @@ const UserSchema = new mongoose.Schema({
 	isAdmin:{
 		type: Boolean,
 		default: false
-	}
+	},
+	avatar: String,
+    firstName: String,
+    lastName: String,
+    email: String,
 })
 
 UserSchema.plugin(passportLocalMongoose)
