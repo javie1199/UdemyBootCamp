@@ -41,3 +41,10 @@ html {
   .container .text-muted {
 	margin: 20px 0;
   }
+
+
+  /* Flexbox grid fix */
+.flex-wrap {
+	display:flex;
+	flex-wrap: wrap;
+  }
